@@ -1,0 +1,15 @@
+{%extends "base.html"%}
+{% block title %}Other Page{% endblock%}
+
+{% block content %}
+    <h1>Filters</h1>
+    <p>{{someText}}</p>
+    <p>{{someText|upper}}</p>
+    <p>{{someText|lower}}</p>
+    <p>{{someText|title}}</p>
+    <p>{{someText|repeat}}</p>
+    <p>{{someText|replace('l', 'L')}}</p>
+    <p>{{someText|reverseString}}</p>
+    <p>{{someText|alternateCase}}</p>
+
+{% endblock %}
