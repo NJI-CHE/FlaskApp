@@ -1,14 +1,15 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,request
 
 app = Flask(__name__, template_folder='templates')
 
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    myValues = "Njiche.dev"
-    myList = [1, 2, 3, 4, 5]
-    return render_template('index.html', myList=myList)
+    if request.method == 'GET':
+        return render_template('index.html')
+    elif request.method == 'POST':
+        return ""
 
 @app.route('/other')
 def other():
@@ -22,7 +23,7 @@ def reverseString(s):
     return s[::-1]
 
 @app.template_filter('repeat')
-def repeat(s, times=5):
+def repeat(s, times=5 ):
     return s * times
 
 @app.template_filter('alternateCase')
