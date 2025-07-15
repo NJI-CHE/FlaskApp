@@ -9,28 +9,13 @@ def index():
     if request.method == 'GET':
         return render_template('index.html')
     elif request.method == 'POST':
-        return ""
+        username = request.form.get('username')
+        password = request.form.get('password')
 
-@app.route('/other')
-def other():
-    myValues = "Njiche.dev"
-    myList = [1, 2, 3, 4, 5]
-    someText = 'Hello World'
-    return render_template('other.html', someText=someText)
-
-@app.template_filter('reverseString')
-def reverseString(s):
-    return s[::-1]
-
-@app.template_filter('repeat')
-def repeat(s, times=5 ):
-    return s * times
-
-@app.template_filter('alternateCase')
-def alternateCase(s):
-    return ''.join([c.upper() if i % 2 == 0 else c.lower() for i, c in enumerate(s)])
-
-        
+        if username == 'nji' and password == 'pass':
+            return 'success'
+        else:
+            return 'Failed login'
 
 
 if __name__ == '__main__':
