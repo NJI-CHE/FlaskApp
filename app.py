@@ -1,5 +1,8 @@
-from flask import Flask, render_template,request, Response
+from flask import Flask, render_template,request, Response, send_from_directory,jsonify
 import pandas as pd
+import os
+import uuid
+
 
 app = Flask(__name__, template_folder='templates')
 
@@ -46,6 +49,35 @@ def convert_csv():
 
     return response
 
+@app.route('/convert_csv2', methods=['POST'])
+def convert_csv2():
+    file = request.files['file']
+
+    df = pd.read_csv(file)
+
+    if not os.path.exists('downloads'):
+        os.makedirs('downloads')
+
+    filename = f'{uuid.uuid4()}.csv'
+    df.to_csv(os.path.join('downloads', filename))
+
+    return render_template('download.html', filename=filename)
+
+
+@app.route('/downloads/<filename>')
+def download(filename):
+    return send_from_directory('downloads', filename, download_name='results.csv')
+
+
+@app.route('/handle_post')
+def handle_post():
+    greetings = request.json['grreting']
+    name = request.json['name']
+
+    with open('file.txt', 'w') as f:
+        f.write(f'{greetings}, {name}')
+
+    return {'message': 'Successfully written!'}
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
